@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using BTLGeek.Manager;
 
 
 namespace BTLGeek.Manager
@@ -40,11 +39,17 @@ namespace BTLGeek.Manager
         // Start is called before the first frame update
         void Start()
         {
+            Table_Frame_Item = new List<List<ITEM_INDEX>>( );
+            TebleClear( );
+        }
+
+
+        void TebleClear()
+		{
             foreach (var FrameItem in Table_Frame_Item)
                 FrameItem.Clear( );
             Table_Frame_Item.Clear( );
         }
-
 
         /// <summary>
         /// 最初のアイテムを配置
@@ -55,8 +60,16 @@ namespace BTLGeek.Manager
         /// <param name="frameNum">最短手数</param>
 		public void SetItem(int itemNum, int frameNum, int tableNum, int efforts)
 		{
+            //テーブルの初期化
+            TebleClear( );
+
+            // テーブルリスト作成
+            for(int i = 0; i<tableNum; i++) {
+                Table_Frame_Item.Add(new List<ITEM_INDEX>( ));
+			}
+
             // 引数のアイテムの数が、定義以上か判定
-            if((int)ITEM_INDEX.MAX <= itemNum) {
+            if ((int)ITEM_INDEX.MAX <= itemNum) {
                 //大きい場合、種類の最大数に設定
                 itemNum = (int)ITEM_INDEX.MAX;
 			}
