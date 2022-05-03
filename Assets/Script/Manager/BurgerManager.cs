@@ -44,24 +44,7 @@ namespace BTLGeek.Manager
         {
             Table_Frame_Item = new List<List<ITEM_INDEX>>( );
             TebleClear( );
-
-            // お試し
-            SetBurger(3, 4, 2, 3);
         }
-
-
-        /// <summary>
-        /// お試し
-        /// </summary>
-        float time=0;
-		private void Update()
-		{
-            if (time >= 5f) {
-                SetBurger(3, 4, 2, 3);
-                time = 0.0f;
-			}
-            time += Time.deltaTime;
-		}
 
 
 		void TebleClear()
@@ -72,7 +55,7 @@ namespace BTLGeek.Manager
                 foreach (var FrameItem in Table_Frame_Item)
                     FrameItem.Clear( );
                 //0～カウント数分のリストを削除(全削除)
-                Table_Frame_Item.RemoveRange(0, (Table_Frame_Item.Count-1));
+                Table_Frame_Item.RemoveRange(0, (Table_Frame_Item.Count));
             }
         }
 
