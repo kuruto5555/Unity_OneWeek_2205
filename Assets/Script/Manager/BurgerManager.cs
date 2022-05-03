@@ -6,7 +6,7 @@ using BTLGeek.Manager;
 
 namespace BTLGeek.Manager
 {
-    public class StageManager : SingletonMonoBehaviour<StageManager>
+    public class BurgerManager : SingletonMonoBehaviour<BurgerManager>
     {
         /// <summary>
         /// 判定の評価（仮で定義。スコアに定義してもらいたい。）
