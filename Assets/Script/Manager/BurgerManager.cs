@@ -23,11 +23,14 @@ namespace BTLGeek.Manager
         /// </summary>
         public enum ITEM_INDEX
 		{
-            NONE = 0,       // 無し
-            HAMBURGER,      // 普通のハンバーガー
-            CHEESE_BURGER,  // チーズバーガー
-            BTL_BURGER,     // BTLバーガー
-            MAX             // 最大値(異常)
+            HAMBURGER       =0, // ハンバーガー
+            DOUBLE_BURGER,      // ダブルバーガー
+            POTATO,             // ポテト
+            JUICE,              // ジュース
+            NUGGET,             // ナゲット
+            APPLE_PIE,          // アップルパイ
+
+            NONE,               // 無し(最大数)
 		}
 
         /// <summary>
@@ -41,14 +44,36 @@ namespace BTLGeek.Manager
         {
             Table_Frame_Item = new List<List<ITEM_INDEX>>( );
             TebleClear( );
+
+            // お試し
+            SetBurger(3, 4, 2, 3);
         }
 
 
-        void TebleClear()
+        /// <summary>
+        /// お試し
+        /// </summary>
+        float time=0;
+		private void Update()
 		{
-            foreach (var FrameItem in Table_Frame_Item)
-                FrameItem.Clear( );
-            Table_Frame_Item.Clear( );
+            if (time >= 5f) {
+                SetBurger(3, 4, 2, 3);
+                time = 0.0f;
+			}
+            time += Time.deltaTime;
+		}
+
+
+		void TebleClear()
+		{
+            //データがあるかチェック
+            if (Table_Frame_Item.Count != 0) {
+                //リストの中は開放する
+                foreach (var FrameItem in Table_Frame_Item)
+                    FrameItem.Clear( );
+                //0～カウント数分のリストを削除(全削除)
+                Table_Frame_Item.RemoveRange(0, (Table_Frame_Item.Count-1));
+            }
         }
 
         /// <summary>
@@ -58,7 +83,7 @@ namespace BTLGeek.Manager
         /// <param name="frameNum">配置できる枠の数(片側の数)</param>
         /// <param name="tableNum">テーブルの数(2以上)</param>
         /// <param name="frameNum">最短手数</param>
-		public void SetItem(int itemNum, int frameNum, int tableNum, int efforts)
+		public void SetBurger(int itemNum, int frameNum, int tableNum, int efforts)
 		{
             //テーブルの初期化
             TebleClear( );
@@ -69,9 +94,9 @@ namespace BTLGeek.Manager
 			}
 
             // 引数のアイテムの数が、定義以上か判定
-            if ((int)ITEM_INDEX.MAX <= itemNum) {
+            if ((int)ITEM_INDEX.NONE <= itemNum) {
                 //大きい場合、種類の最大数に設定
-                itemNum = (int)ITEM_INDEX.MAX;
+                itemNum = (int)ITEM_INDEX.NONE;
 			}
 
             // 引数のアイテムの数が、引数の枠の数より大きいか判定
@@ -80,20 +105,32 @@ namespace BTLGeek.Manager
                 itemNum = frameNum;
 			}
 
-            // アイテムの生成
-            for (int i = 0; i < itemNum; i++) {
-                // 抽出用アイテムリスト生成
-                List<int> item = new List<int>();
-                for (int j = 0; j < (int)ITEM_INDEX.MAX; j++) {
-                    item.Add(j);
-				}
+            // 抽出用アイテムリスト
+            List<int> burger = new List<int>();
+            // フレームの数だけ、バーガーの生成
+            for (int i = 0; i < frameNum; i++) {
+                //現在のフレームインデックスが生成するアイテムの数未満だったら、アイテムを生成
+                if(i < itemNum) {
+                    //リストの中が0だったらリストに種類を入れる
+                    if (burger.Count == 0) {
+                        for (int j = 0; j < (int)ITEM_INDEX.NONE; j++) {
+                            burger.Add(j);
+                        }
+                    }
 
-                // Randでアイテムを抽出し、抽出した物をリストから排除する
-                int select = item[Random.Range(0, (item.Count)-1)];
-                foreach(var Frame in Table_Frame_Item) {
-                    Frame.Add((ITEM_INDEX)select);
-				}
-                item.Remove(select);
+                    // Randでアイテムを抽出し、抽出した物をリストから排除する
+                    int select = burger[Random.Range(0, (burger.Count)-1)];
+                    foreach(var Frame in Table_Frame_Item) {
+                        Frame.Add((ITEM_INDEX)select);
+				    }
+                    burger.Remove(select);
+                }
+                // アイテムの数異常だったら、空きにする
+                else {
+                    foreach (var Frame in Table_Frame_Item) {
+                        Frame.Add(ITEM_INDEX.NONE);
+                    }
+                }
             }
 
             // 手数分のシャッフルを実行
@@ -111,17 +148,17 @@ namespace BTLGeek.Manager
             for(int i = 0; i < efforts; i++) {
                 // 移動元の選択
                 // テーブルを選択
-                int movingSource_tableIndex = Random.Range(0, tableNum);
+                int movingSource_tableIndex = Random.Range(0, (tableNum-1));
                 // どの位置のアイテムか、Randで選択
-                int movingSource_frameIndex = Random.Range(0, frameNum);
+                int movingSource_frameIndex = Random.Range(0, (frameNum-1));
                 int destination_tableIndex;
                 int destination_frameIndex;
                 do {
                     // 移動先の選択
                     // 右か左かRandで選択(0:右　1:左)
-                    destination_tableIndex = Random.Range(0, 1);
+                    destination_tableIndex = Random.Range(0, (tableNum-1));
                     // どの位置のアイテムか、Randで選択
-                    destination_frameIndex = Random.Range(0, frameNum);
+                    destination_frameIndex = Random.Range(0, (frameNum-1));
 
                 } while (movingSource_tableIndex == destination_tableIndex && movingSource_frameIndex == destination_frameIndex);
 
