@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdb08770000dc0240aebd8552fe66681, type: 3}
+  m_Script: {fileID: 11500000, guid: 684f473dba93e3749a7ff6daf98fa162, type: 3}
   m_Name: SoundManagerSetting
   m_EditorClassIdentifier: 
-  volume_: 0.1
+  volume_: 1
   bgm_volume_: 1
   se_volume_: 1
