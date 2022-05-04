@@ -82,10 +82,11 @@ public class MyInput : MonoBehaviour, Unity_OneWeek_2205.IPlayerActions
     {
         if (!_isTouch) return;
 
-        MousePos = Input.mousePosition;
+        MousePos = Input.mousePosition;//現在のマウス座標更新
 
         _swipeLen = Vector3.Distance(MousePos, StartMousePos);
 
+        if (_isSwipe) return; //一度だけ判定する為に一度スワイプ判定になったら中に入れないようにする
         if(SwipeLen < _swipeLen)
         {
             _isSwipe = true;
