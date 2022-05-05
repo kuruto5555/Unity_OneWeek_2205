@@ -10,6 +10,7 @@ namespace BTLGeek.Manager
         /// <summary>
         /// 判定の評価（仮で定義。スコアに定義してもらいたい。）
         /// </summary>
+        [System.Serializable]
         public enum EVALUATION
 		{
             PERFECT,    // 完全一致
@@ -21,6 +22,7 @@ namespace BTLGeek.Manager
         /// <summary>
         /// アイテムの種類
         /// </summary>
+        [System.Serializable]
         public enum ITEM_INDEX
 		{
             HAMBURGER       =0, // ハンバーガー
@@ -39,11 +41,12 @@ namespace BTLGeek.Manager
         public List<List<ITEM_INDEX>> Table_Frame_Item { get; private set; }
 
 
-        // Start is called before the first frame update
-        void Start()
+        /// <summary>
+        /// インスタンス生成時に呼ばれる
+        /// </summary>
+        void Awake()
         {
             Table_Frame_Item = new List<List<ITEM_INDEX>>( );
-            TebleClear( );
         }
 
 
@@ -63,16 +66,15 @@ namespace BTLGeek.Manager
         /// 最初のアイテムを配置
         /// </summary>
         /// <param name="itemNum">アイテムの数</param>
-        /// <param name="frameNum">配置できる枠の数(片側の数)</param>
         /// <param name="tableNum">テーブルの数(2以上)</param>
-        /// <param name="frameNum">最短手数</param>
+        /// <param name="efforts">最短手数</param>
 		public void SetBurger(int itemNum, int frameNum, int tableNum, int efforts)
 		{
             //テーブルの初期化
             TebleClear( );
 
             // テーブルリスト作成
-            for(int i = 0; i<tableNum; i++) {
+            for (int i = 0; i<tableNum; i++) {
                 Table_Frame_Item.Add(new List<ITEM_INDEX>( ));
 			}
 
