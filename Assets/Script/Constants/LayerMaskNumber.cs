@@ -7,6 +7,8 @@ public static class LayerMaskNumber
 {
 
 	public const int DEFAULT          =1;
+	public const int FOOD             =512;
+	public const int FRAME            =256;
 	public const int TRANSPARENT_FX   =2;
 	public const int UI               =32;
 	public const int WATER            =16;
