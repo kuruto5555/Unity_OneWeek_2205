@@ -22,7 +22,7 @@
                     "path": "<Mouse>/leftButton",
                     "interactions": "Hold",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse;Touch",
                     "action": "Tap",
                     "isComposite": false,
                     "isPartOfComposite": false

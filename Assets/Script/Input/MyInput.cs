@@ -40,6 +40,8 @@ public class MyInput : MonoBehaviour, Unity_OneWeek_2205.IPlayerActions
     /// </summary>
     private bool _isTouch = false;
 
+    private MoveController _moveController = null;
+
     private void Awake()
     {
         if (_instance == null) _instance = this;
@@ -70,6 +72,7 @@ public class MyInput : MonoBehaviour, Unity_OneWeek_2205.IPlayerActions
     {
         _isSwipe = false;
         _isTouch = false;
+        _moveController = MoveController._instance;
     }
 
     // Update is called once per frame
@@ -85,6 +88,8 @@ public class MyInput : MonoBehaviour, Unity_OneWeek_2205.IPlayerActions
         MousePos = Input.mousePosition;//現在のマウス座標更新
 
         _swipeLen = Vector3.Distance(MousePos, StartMousePos);
+
+        transform.position = MousePos;
 
         if (_isSwipe) return; //一度だけ判定する為に一度スワイプ判定になったら中に入れないようにする
         if(SwipeLen < _swipeLen)
@@ -105,6 +110,10 @@ public class MyInput : MonoBehaviour, Unity_OneWeek_2205.IPlayerActions
             StartMousePos = Input.mousePosition;
 
             _isTouch = true;
+
+            _moveController.CatchItem();
+
+            //MoveController.frame上のアイテム取得処理
         }
 
         //タップ判定の瞬間
@@ -122,5 +131,12 @@ public class MyInput : MonoBehaviour, Unity_OneWeek_2205.IPlayerActions
             _isTouch = false;
             _isSwipe = false;
         }
+    }
+
+    private void SwipeFinish()
+    {
+        if (!_isSwipe) return;
+
+        //アイテム奥処理
     }
 }
