@@ -34,7 +34,7 @@ public class TimerController : MonoBehaviour
     // 時間切れ判定
     void TimeOverChecker()
     {
-        if (seconds >= 0)
+        if (seconds <= 0)
         {
 
         }
