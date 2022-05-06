@@ -1,10 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BTLGeek;
+using BTLGeek.Manager;
 
 public class MoveController : MonoBehaviour
 {
     public static MoveController _instance { get; private set; }
+
+    private BurgerManager _burgerManager = null;
 
     /// <summary>
     /// アイテムを拾えているかどうか
@@ -15,6 +19,11 @@ public class MoveController : MonoBehaviour
     /// 最初Foodを掴んだ時のFrame
     /// </summary>
     private Transform _frameTransform = null;
+
+    /// <summary>
+    /// 最初に触れたFrameのクラス
+    /// </summary>
+    private Frame _firstTouchFrame = null;
 
     /// <summary>
     /// 掴んでいるFoodのTransform
@@ -39,6 +48,8 @@ public class MoveController : MonoBehaviour
 
         _frameTransform = null;
         _itemTransform = null;
+        _firstTouchFrame = null;
+        _burgerManager = BurgerManager.Instance;
 
     }
 
@@ -67,6 +78,8 @@ public class MoveController : MonoBehaviour
             _frameTransform = t;
             _itemTransform = t.GetChild(0);
 
+            _firstTouchFrame = t.GetComponent<Frame>(); //Frameクラス取得
+
             _itemTransform.parent = null; //アイテムの親を無くす
 
             //取得したFrameの子であるfoodの親をマウスオブジェクトに変更しFrameのインデックスも取得する
@@ -89,9 +102,12 @@ public class MoveController : MonoBehaviour
 
         Ray ray = Camera.main.ScreenPointToRay(screenPos);
 
+        //離した場所にFrameが存在していたら処理に入る
         foreach (RaycastHit2D h in Physics2D.RaycastAll((Vector2)ray.origin, (Vector2)ray.direction))
         {
             if (h.transform.tag != "Frame") continue;
+
+            Frame frame = h.transform.GetComponent<Frame>();
 
             isFrame = true;
 
@@ -111,8 +127,8 @@ public class MoveController : MonoBehaviour
             {
                 PuttoFood(h.transform);
             }
-     
 
+            _burgerManager.Move(_firstTouchFrame.TableIndex, _firstTouchFrame.FrameIndex, frame.TableIndex, frame.FrameIndex);
 
             Debug.Log(h.transform.name);
         }
@@ -123,8 +139,10 @@ public class MoveController : MonoBehaviour
             _itemTransform.localPosition = Vector3.zero;
         }
 
+        //初期化
         _frameTransform = null;
         _itemTransform = null;
+        _firstTouchFrame = null;
 
         _isItemTouch = false; //拾ってるかフラグを戻す
     }
