@@ -128,6 +128,8 @@ public class MyInput : MonoBehaviour, Unity_OneWeek_2205.IPlayerActions
         {
             Debug.Log("離されたお");
 
+            _moveController.PutItem();
+
             _isTouch = false;
             _isSwipe = false;
         }

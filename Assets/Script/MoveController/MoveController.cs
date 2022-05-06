@@ -11,7 +11,9 @@ public class MoveController : MonoBehaviour
     /// </summary>
     private bool _isItemTouch = false;
 
+    private Transform _frameTransform = null;
 
+    private Transform _itemTransform = null;
 
     private void Awake()
     {
@@ -33,7 +35,14 @@ public class MoveController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //アイテムもってた場合処理（仮）
+        if(_isItemTouch)
+        {
+            Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            pos.z = 0f;
+            _itemTransform.position = pos;
+
+        }
     }
 
     /// <summary>
@@ -47,28 +56,20 @@ public class MoveController : MonoBehaviour
      
         foreach(RaycastHit2D hit in Physics2D.RaycastAll((Vector2)ray.origin, (Vector2)ray.direction))
         {
-            if (hit.transform.tag != "Frame") return;
-            //if(Frameの子に)
+            Transform t = hit.transform;
+            if (t.tag != "Frame") return;
+            if(t.childCount == 0) return;
+
+            _frameTransform = t;
+            _itemTransform = t.GetChild(0);
+
+            _itemTransform.parent = null; //アイテムの親を無くす
 
             //取得したFrameの子であるfoodの親をマウスオブジェクトに変更しFrameのインデックスも取得する
             Debug.Log(hit.transform.name);
 
             _isItemTouch = true;
         }
-
-        //if(hit.collider)
-        //{
-        //    //hit.transform.tag
-        //
-        //    //hit.transform.parent = this.transform;  //拾ったアイテムの親をマウスにする
-        //
-        //
-        //
-        //    Debug.Log(hit.transform.name);
-        //
-        //    _isItemTouch = true;
-        //
-        //}
 
     }
 
@@ -78,6 +79,8 @@ public class MoveController : MonoBehaviour
     public void PutItem()
     {
         if (!_isItemTouch) return;
+
+        bool isFrame = false; //Frameがあったかどうか
 
         Vector3 screenPos = Input.mousePosition;
 
@@ -92,11 +95,55 @@ public class MoveController : MonoBehaviour
         {
             if (h.transform.tag != "Frame") return;
 
-            //取得したFrameの子であるfoodの親をマウスオブジェクトに変更しFrameのインデックスも取得する
+            isFrame = true;
+
+            //元の場所に戻す場合
+            if(h.transform == _frameTransform)
+            {
+                _itemTransform.parent = h.transform; //自分が保持しているアイテムの親を移動先Frameに変更
+
+            }
+            //新しい場所かつ別のアイテムが置かれていた場合
+            else if(h.transform.childCount == 1)
+            {
+                Transform item = h.transform.GetChild(0);
+                _itemTransform.parent = h.transform;
+                _itemTransform.position = Vector3.zero; //位置の初期化
+                item.parent = _frameTransform;
+                item.position = Vector3.zero;
+            }
+
+            //新しい場所かつアイテムが置かれていなかった場合
+
+            
+      
             //自分の子にしてあるfoodを取得したFrameの子に変更しアイテム置き換え処理を呼ぶ
+
+
+
             Debug.Log(h.transform.name);
         }
 
+        if (!isFrame)
+        {
+            _itemTransform.parent = _frameTransform; //元のFrameにアイテムを戻す
+            _itemTransform.position = Vector3.zero;
+        }
+
+        _frameTransform = null;
+        _itemTransform = null;
+
         _isItemTouch = false; //拾ってるかフラグを戻す
+    }
+
+    /// <summary>
+    /// 子供入れ替え用
+    /// </summary>
+    /// <param name="FirstParent">最初に選択した親</param>
+    /// <param name="NextParent">置き換えたい親</param>
+    /// <param name="Child">たらい回しにされる子</param>
+    private void TradeChild(Transform FirstParent, Transform NextParent, Transform Child)
+    {
+
     }
 }
