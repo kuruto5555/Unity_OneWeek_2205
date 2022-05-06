@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8259244631962422396
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3520514767615887694}
+  - component: {fileID: 5837553380480618094}
+  m_Layer: 0
+  m_Name: Questioner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3520514767615887694
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8259244631962422396}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5837553380480618094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8259244631962422396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35f656fad3a04d944bca249280a2e581, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tablePrefub_: {fileID: 9038904799255044112, guid: 9c5a58a6435c9414491422870cdc4491,
+    type: 3}
+  framePrefab: {fileID: 4603449438166693140, guid: aaf274d8dd604f54ba507b7f6af02b65,
+    type: 3}
+  foodPrefabList_:
+  - {fileID: 7507457788442640246, guid: d8927b164dcd434448c148f60e763c48, type: 3}
+  - {fileID: 7507457788442640246, guid: d8927b164dcd434448c148f60e763c48, type: 3}
+  - {fileID: 2069797296532955018, guid: 52629df36aff0ae4e98362eb628f166f, type: 3}
+  - {fileID: 7507457788442640246, guid: d8927b164dcd434448c148f60e763c48, type: 3}
+  - {fileID: 7507457788442640246, guid: d8927b164dcd434448c148f60e763c48, type: 3}
+  - {fileID: 7507457788442640246, guid: d8927b164dcd434448c148f60e763c48, type: 3}
+  <TabelNum>k__BackingField: 2
+  difficultySettingList:
+  - score: 0
+    foodNum: 3
+    efforts: 3
+  - score: 500
+    foodNum: 4
+    efforts: 3
+  - score: 1000
+    foodNum: 5
+    efforts: 4
+  - score: 1500
+    foodNum: 5
+    efforts: 5
+  - score: 2000
+    foodNum: 6
+    efforts: 7
