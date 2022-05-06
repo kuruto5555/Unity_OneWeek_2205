@@ -22,9 +22,13 @@ namespace BTLGeek.State
 		public override void Start(Questioner owner)
 		{
 			// 開始演出のアニメーターを取得
+			animator_ = GameObject.Find("Directing").GetComponent<Animator>( );
+			if(null == animator_) {
+				Debug.LogError("クラス名：Questioner_Start\n関数名：Start\n-- 詳細--\n開始アニメーションのアニメーターの取得に失敗しました。");
+			}
 
 			// 開始演出再生
-
+			animator_.Play("Start");
 		}
 
 		public override void Finish(Questioner owner)
@@ -35,11 +39,12 @@ namespace BTLGeek.State
 		public override void Update(Questioner owner)
 		{
 			// 開始演出終了待ち
+			if (animator_.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f) {
+				// 終了後タイマースタート
 
-			// 終了後タイマースタート
-
-			// ステートをゲーム中に遷移
-
+				// ステートをゲーム中に遷移
+				owner.stateMachine_.ChangeState<Questioner_Do>( );
+			}
 		}
 
 		public override void FixedUpdate(Questioner owner)

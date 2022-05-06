@@ -42,7 +42,7 @@ namespace BTLGeek
             // 種類の取得
             BurgerManager.ITEM_INDEX itemIndex = bm.Table_Frame_Item[TableIndex][FrameIndex];
 
-            if (itemIndex != BurgerManager.ITEM_INDEX.NONE) {
+            if (BurgerManager.ITEM_INDEX.NONE != itemIndex) {
                 // 食べ物の生成
                 Instantiate(foodPrefabList_[(int)itemIndex], transform);
             }
