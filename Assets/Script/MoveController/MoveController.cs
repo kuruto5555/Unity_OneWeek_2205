@@ -11,9 +11,21 @@ public class MoveController : MonoBehaviour
     /// </summary>
     private bool _isItemTouch = false;
 
+    /// <summary>
+    /// 最初Foodを掴んだ時のFrame
+    /// </summary>
     private Transform _frameTransform = null;
 
+    /// <summary>
+    /// 掴んでいるFoodのTransform
+    /// </summary>
     private Transform _itemTransform = null;
+
+    /// <summary>
+    /// マウスの現在の座標
+    /// </summary>
+    private Vector3 _mousePos = Vector3.zero;
+
 
     private void Awake()
     {
@@ -30,6 +42,11 @@ public class MoveController : MonoBehaviour
     void Start()
     {
         _isItemTouch = false;
+
+        _frameTransform = null;
+        _itemTransform = null;
+
+        _mousePos = Vector3.zero;
     }
 
     // Update is called once per frame
@@ -39,7 +56,7 @@ public class MoveController : MonoBehaviour
         if(_isItemTouch)
         {
             Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            pos.z = 0f;
+            pos.z = -1f;
             _itemTransform.position = pos;
 
         }
@@ -93,29 +110,26 @@ public class MoveController : MonoBehaviour
 
         foreach (RaycastHit2D h in Physics2D.RaycastAll((Vector2)ray.origin, (Vector2)ray.direction))
         {
-            if (h.transform.tag != "Frame") return;
+            if (h.transform.tag != "Frame") continue;
 
             isFrame = true;
 
             //元の場所に戻す場合
             if(h.transform == _frameTransform)
             {
-                _itemTransform.parent = h.transform; //自分が保持しているアイテムの親を移動先Frameに変更
+                PuttoDefault(h.transform);
 
             }
             //新しい場所かつ別のアイテムが置かれていた場合
             else if(h.transform.childCount == 1)
             {
-                Transform item = h.transform.GetChild(0);
-                _itemTransform.parent = h.transform;
-                _itemTransform.position = Vector3.zero; //位置の初期化
-                item.parent = _frameTransform;
-                item.position = Vector3.zero;
+                TradeChild(_frameTransform, h.transform);
             }
-
             //新しい場所かつアイテムが置かれていなかった場合
-
-            
+            else
+            {
+                PuttoNewPos(h.transform);
+            }
       
             //自分の子にしてあるfoodを取得したFrameの子に変更しアイテム置き換え処理を呼ぶ
 
@@ -127,7 +141,7 @@ public class MoveController : MonoBehaviour
         if (!isFrame)
         {
             _itemTransform.parent = _frameTransform; //元のFrameにアイテムを戻す
-            _itemTransform.position = Vector3.zero;
+            _itemTransform.localPosition = Vector3.zero;
         }
 
         _frameTransform = null;
@@ -141,9 +155,30 @@ public class MoveController : MonoBehaviour
     /// </summary>
     /// <param name="FirstParent">最初に選択した親</param>
     /// <param name="NextParent">置き換えたい親</param>
-    /// <param name="Child">たらい回しにされる子</param>
-    private void TradeChild(Transform FirstParent, Transform NextParent, Transform Child)
+    private void TradeChild(Transform FirstParent, Transform NextParent)
     {
+        Transform item = NextParent.GetChild(0);
 
+        _itemTransform.parent = NextParent;
+        _itemTransform.localPosition = Vector3.zero;
+
+        item.parent = FirstParent;
+        item.localPosition = Vector3.zero;
+    }
+
+    /// <summary>
+    /// 持っているFoodを元の場所に戻す
+    /// </summary>
+    /// <param name="frameTrans"></param>
+    private void PuttoDefault(Transform frameTrans)
+    {
+        _itemTransform.parent = frameTrans; //自分が保持しているアイテムの親を移動先Frameに変更
+        _itemTransform.localPosition = Vector3.zero;
+    }
+
+    private void PuttoNewPos(Transform frameTrans)
+    {
+        _itemTransform.parent = frameTrans;
+        _itemTransform.localPosition = Vector3.zero;
     }
 }

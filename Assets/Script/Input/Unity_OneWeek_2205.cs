@@ -42,7 +42,7 @@ public partial class @Unity_OneWeek_2205 : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""3689efd6-239f-4996-be42-31412b8e2d6b"",
                     ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": ""Hold"",
+                    ""interactions"": ""Press(behavior=2)"",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse;Touch"",
                     ""action"": ""Tap"",
