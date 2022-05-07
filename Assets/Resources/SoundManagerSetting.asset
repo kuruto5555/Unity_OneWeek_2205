@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: SoundManagerSetting
   m_EditorClassIdentifier: 
   volume_: 1
-  bgm_volume_: 1
+  bgm_volume_: 0.2
   se_volume_: 1
