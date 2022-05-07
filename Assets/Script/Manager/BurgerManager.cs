@@ -173,19 +173,26 @@ namespace BTLGeek.Manager
 		/// <returns>クリアしているかどうか。true：クリアしている　false：不一致</returns>
 		public EVALUATION ClearCheck()
 		{
-            //ローカル変数
+            // ローカル変数
             int matchNum = 0; // 一致しているテーブルの数
             EVALUATION evaluation; // 戻り値
             int frameHalfNum = (int)(Table_Frame_Item[0].Count * 0.5f);
+            // 一致しているか判定
+            bool isMatch = true;
 
             // フレームの数分判定
-            for (int i = 0; i <= (Table_Frame_Item[0].Count-1); i++) {
+            for (int i = 0; i < Table_Frame_Item[0].Count; i++) {
                 // テーブル同士判定
-                for(int j = 0; j <= (Table_Frame_Item.Count-1); j++) {
-                    if (Table_Frame_Item[j][i] != Table_Frame_Item[j+1][i])
+                for(int j = 0; j < (Table_Frame_Item.Count-1); j++) {
+                    if (Table_Frame_Item[j][i] != Table_Frame_Item[j+1][i]) {
+                        isMatch = false;
                         break;
+                    }
 				}
-                matchNum++; // ここに来れば一致しているのでカウント
+                // マッチフラグがtrueだったらカウント
+                if (true == isMatch) {
+                    matchNum++; // ここに来れば一致しているのでカウント
+                }
 			}
 
             // 評価判定
