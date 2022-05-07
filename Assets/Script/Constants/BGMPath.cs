@@ -6,7 +6,8 @@
 public static class BGMPath
 {
 
-	public const string DUNGEON ="BGM/Dungeon";
+	public const string DUNGEON    ="BGM/Dungeon";
+	public const string GAME_SCENE ="BGM/GameScene";
 
 }
 

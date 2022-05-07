@@ -34,6 +34,8 @@ namespace BTLGeek.State
 			}
 			// タイムアップアニメーション再生
 			animator_?.Play("TimeIsUp");
+			// タイムアップのSE再生
+			SoundManager.Instance.PlaySeByName(SEPath.TIME_IS_OUT);
 		}
 
 		public override void Finish(Questioner owner)

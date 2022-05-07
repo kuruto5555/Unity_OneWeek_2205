@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BTLGeek.Manager;
+using BTLGeek.Constants;
 
 
 namespace BTLGeek.State
@@ -13,6 +15,10 @@ namespace BTLGeek.State
 		/// </summary>
 		private Animator animator_ = null;
 
+		/// <summary>
+		/// サウンドを再生するかどうか
+		/// </summary>
+		bool isSE_Play = true;
 
 
 		/*---- メソッド ----*/
@@ -29,6 +35,9 @@ namespace BTLGeek.State
 
 			// 開始演出再生
 			animator_.Play("Start");
+
+			// BGM再生
+			SoundManager.Instance.PlayBgmByName(BGMPath.GAME_SCENE, true);
 		}
 
 		public override void Finish(Questioner owner)
@@ -38,11 +47,27 @@ namespace BTLGeek.State
 
 		public override void Update(Questioner owner)
 		{
-			// 開始演出終了待ち
-			if (animator_.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f) {
-				// 終了後タイマースタート
+			if (animator_.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.33f && isSE_Play) {
+				switch(Random.Range(1, 3)) {
+					case 1:
+						SoundManager.Instance.PlaySeByName(SEPath.START01);
+						break;
 
-				// ステートをゲーム中に遷移
+					case 2:
+						SoundManager.Instance.PlaySeByName(SEPath.START02);
+						break;
+
+					case 3:
+						SoundManager.Instance.PlaySeByName(SEPath.START03);
+						break;
+				}
+				isSE_Play = false;
+			}
+			// 開始演出終了待ち
+			else if (animator_.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f) {
+			// 終了後タイマースタート
+
+			// ステートをゲーム中に遷移
 				owner.stateMachine_.ChangeState<Questioner_Do>( );
 			}
 		}
@@ -54,5 +79,7 @@ namespace BTLGeek.State
 		public override void LateUpdate(Questioner owner)
 		{ // 処理無し
 		}
+
+
 	}
 }

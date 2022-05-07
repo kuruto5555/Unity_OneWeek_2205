@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using BTLGeek.Manager;
-
+using BTLGeek.Constants;
 
 namespace BTLGeek.State
 {
@@ -66,26 +66,21 @@ namespace BTLGeek.State
 				// クリア判定実施
 				BurgerManager.EVALUATION evaluation = burgerManager_.ClearCheck();
 
+
+				// クリア判定ごとの処理
 				switch (evaluation) {
 					case BurgerManager.EVALUATION.Perfect:
-						// スコア加算
-
-						// スコア加算エフェクト再生
-						animator_.Play(evaluation.ToString());
-						// ステートを出題に変える
-						owner.stateMachine_.ChangeState<Questioner_Do>( );
+						AddScore(owner, evaluation, SEPath.PERFECT);
 						break;
 
 					case BurgerManager.EVALUATION.Good:
 					case BurgerManager.EVALUATION.Bad:
 						// 移動回数が0か判定
 						if (moveCountManager_.MoveCount == 0) {
-							// 0の場合スコア加算
-
-							// スコア加算エフェクト再生
-							animator_.Play(evaluation.ToString( ));
-							//ステートを出題に変える
-							owner.stateMachine_.ChangeState<Questioner_Do>( );
+							// スコア加算関数(スコア加算、スコア加算エフェクト再生、SE再生、ステート切り替え)
+							// 第三引数について...
+							// break無しのケース処理が書けないため、三項演算子で実装しました。
+							AddScore(owner, evaluation, BurgerManager.EVALUATION.Good == evaluation ? SEPath.GOOD : SEPath.BAD);
 						}
 						else {
 							// 0出ない場合何もしない
@@ -96,6 +91,7 @@ namespace BTLGeek.State
 						Debug.LogError("クリア判定のありえないルート\nクラス名：Quesioner_Idling\n関数名：Update");
 						break;
 				}
+
 
 				// 前フレームの移動回数に、現在の値をセット
 				prevMoveCount = moveCountManager_.MoveCount;
@@ -109,6 +105,19 @@ namespace BTLGeek.State
 
 		public override void LateUpdate(Questioner owner)
 		{
+		}
+
+
+		private void AddScore(Questioner owner, BurgerManager.EVALUATION evaluation, string sePath)
+		{
+			// 0の場合スコア加算
+
+			// スコア加算エフェクト再生
+			animator_.Play(evaluation.ToString( ));
+			// SE再生
+			SoundManager.Instance.PlaySeByName(sePath);
+			//ステートを出題に変える
+			owner.stateMachine_.ChangeState<Questioner_Do>( );
 		}
 	}
 }

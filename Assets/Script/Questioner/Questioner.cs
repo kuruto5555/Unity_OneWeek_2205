@@ -42,6 +42,9 @@ namespace BTLGeek {
         [field: SerializeField, Range(2, 3)]
         public int TabelNum { get; private set; }
 
+        [field: Tooltip("hoge")]
+        public int hoge;
+
         /// <summary>
         /// ステートマシーン
         /// </summary>
@@ -84,6 +87,11 @@ namespace BTLGeek {
         /// </summary>
         MoveCountManager moveCountManager_ = null;
 
+        /// <summary>
+        /// タイマー計測してるやつ
+        /// </summary>
+        TimerController timerController_ = null;
+
 
 
         /*---- メソッド ----*/
@@ -117,12 +125,20 @@ namespace BTLGeek {
             // ステートマシン生成
             stateMachine_ = new StateMachine<Questioner>(this);
             stateMachine_.ChangeState<Questioner_Start>( );
+            // タイマーコントロー取得
+
         }
 
         // Update is called once per frame
         void Update()
         {
+            // ステートの更新
             stateMachine_.Update( );
+
+            // タイマーが0か判定
+//            if(0 == 0) {
+//                stateMachine_.ChangeState<Questioner_TimeIsUp>( );
+//			}
         }
 
         /// <summary>

@@ -18,7 +18,6 @@ namespace BTLGeek.Manager
             Bad,        // ５割り未満
 		}
 
-
         /// <summary>
         /// アイテムの種類
         /// </summary>
@@ -40,16 +39,30 @@ namespace BTLGeek.Manager
         /// </summary>
         public List<List<ITEM_INDEX>> Table_Frame_Item { get; private set; }
 
+        /// <summary>
+        /// 生成時のアイテム数
+        /// <para>
+        /// -- 詳細 --<br/>
+        /// 問題生成時に値が設定される。<br/>
+        /// 判定を行うときに使用される。<br/>
+        /// </para>
+        /// </summary>
+        private int itemNum_ = 0;
+
+
 
         /// <summary>
         /// インスタンス生成時に呼ばれる
         /// </summary>
-        void Awake()
+        override protected void Awake()
         {
+            base.Awake();
             Table_Frame_Item = new List<List<ITEM_INDEX>>( );
         }
 
-
+        /// <summary>
+        /// テーブルの中身のクリア
+        /// </summary>
 		void TebleClear()
 		{
             //データがあるかチェック
@@ -70,6 +83,9 @@ namespace BTLGeek.Manager
         /// <param name="efforts">最短手数</param>
 		public void SetBurger(int itemNum, int frameNum, int tableNum, int efforts)
 		{
+            // 判定用に値を保持
+            itemNum_ = itemNum;
+
             //テーブルの初期化
             TebleClear( );
 
@@ -177,11 +193,13 @@ namespace BTLGeek.Manager
             int matchNum = 0; // 一致しているテーブルの数
             EVALUATION evaluation; // 戻り値
             int frameHalfNum = (int)(Table_Frame_Item[0].Count * 0.5f);
-            // 一致しているか判定
-            bool isMatch = true;
+
 
             // フレームの数分判定
             for (int i = 0; i < Table_Frame_Item[0].Count; i++) {
+                // 一致しているかの判定結果
+                bool isMatch = true;
+
                 // テーブル同士判定
                 for(int j = 0; j < (Table_Frame_Item.Count-1); j++) {
                     if (Table_Frame_Item[j][i] != Table_Frame_Item[j+1][i]) {
@@ -196,7 +214,7 @@ namespace BTLGeek.Manager
 			}
 
             // 評価判定
-            if (matchNum == Table_Frame_Item[0].Count) {
+            if (matchNum >= itemNum_) {
                 evaluation = EVALUATION.Perfect;
 			}
             else if (matchNum >= frameHalfNum) { 
