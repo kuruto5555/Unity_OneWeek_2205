@@ -67,17 +67,17 @@ namespace BTLGeek.State
 				BurgerManager.EVALUATION evaluation = burgerManager_.ClearCheck();
 
 				switch (evaluation) {
-					case BurgerManager.EVALUATION.PERFECT:
+					case BurgerManager.EVALUATION.Perfect:
 						// スコア加算
 
 						// スコア加算エフェクト再生
-						animator_.Play("Parfects");
+						animator_.Play(evaluation.ToString());
 						// ステートを出題に変える
 						owner.stateMachine_.ChangeState<Questioner_Do>( );
 						break;
 
-					case BurgerManager.EVALUATION.GOOD:
-					case BurgerManager.EVALUATION.BAD:
+					case BurgerManager.EVALUATION.Good:
+					case BurgerManager.EVALUATION.Bad:
 						// 移動回数が0か判定
 						if (moveCountManager_.MoveCount == 0) {
 							// 0の場合スコア加算

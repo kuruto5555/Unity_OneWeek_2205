@@ -13,9 +13,9 @@ namespace BTLGeek.Manager
         [System.Serializable]
         public enum EVALUATION
 		{
-            PERFECT,    // 完全一致
-            GOOD,       // ５割り正解
-            BAD,        // ５割り未満
+            Perfect,    // 完全一致
+            Good,       // ５割り正解
+            Bad,        // ５割り未満
 		}
 
 
@@ -197,13 +197,13 @@ namespace BTLGeek.Manager
 
             // 評価判定
             if (matchNum == Table_Frame_Item[0].Count) {
-                evaluation = EVALUATION.PERFECT;
+                evaluation = EVALUATION.Perfect;
 			}
             else if (matchNum >= frameHalfNum) { 
-                evaluation = EVALUATION.GOOD;
+                evaluation = EVALUATION.Good;
             }
 			else {
-                evaluation = EVALUATION.BAD;
+                evaluation = EVALUATION.Bad;
 			}
 
             return evaluation;
