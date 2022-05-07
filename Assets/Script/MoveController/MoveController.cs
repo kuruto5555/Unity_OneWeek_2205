@@ -124,16 +124,18 @@ public class MoveController : MonoBehaviour
             else if(h.transform.childCount == 1)
             {
                 TradeChild(_frameTransform, h.transform);
+                _moveCountManager.DecrementMoveCount();
             }
             //新しい場所かつアイテムが置かれていなかった場合
             else
             {
                 PuttoFood(h.transform);
+                _moveCountManager.DecrementMoveCount();
             }
 
             _burgerManager.Move(_firstTouchFrame.TableIndex, _firstTouchFrame.FrameIndex, frame.TableIndex, frame.FrameIndex);
 
-            _moveCountManager.DecrementMoveCount();
+            
 
             Debug.Log(h.transform.name);
         }
