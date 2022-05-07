@@ -105,7 +105,6 @@ GameObject:
   - component: {fileID: 7382798639553099329}
   - component: {fileID: 7382798639553099343}
   - component: {fileID: 7382798639553099328}
-  - component: {fileID: 4480752576781434859}
   m_Layer: 5
   m_Name: Time
   m_TagString: Untagged
@@ -171,19 +170,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4480752576781434859
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7382798639553099330}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d88a7a0a2acb97448e6a425d433ad7c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeText: {fileID: 7382798639314942761}
 --- !u!1 &7382798640693863421
 GameObject:
   m_ObjectHideFlags: 0
@@ -196,6 +182,7 @@ GameObject:
   - component: {fileID: 7382798640693863416}
   - component: {fileID: 7382798640693863417}
   - component: {fileID: 7382798640693863418}
+  - component: {fileID: 1308693914604300482}
   m_Layer: 5
   m_Name: Text-Count
   m_TagString: Untagged
@@ -278,3 +265,18 @@ MonoBehaviour:
   m_EffectColor: {r: 1, g: 1, b: 1, a: 0.5}
   m_EffectDistance: {x: 2, y: -2}
   m_UseGraphicAlpha: 1
+--- !u!114 &1308693914604300482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7382798640693863421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dac142dc4f36e3e4abcdd21aab651fa0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timerText: {fileID: 7382798640693863417}
+  timeLimit: 60
+  seconds: 0
