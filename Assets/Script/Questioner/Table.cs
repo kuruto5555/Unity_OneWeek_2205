@@ -51,7 +51,7 @@ namespace BTLGeek
 		/// </summary>
 		private void Awake()
 		{
-			if (framePrefab_ == null) {
+			if (null == framePrefab_) {
 				Debug.LogError("フレームのプレハブがアタッチされていません。\nインスペクター上からアタッチして下さい。");
 			}
 		}

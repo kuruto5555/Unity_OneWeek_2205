@@ -55,8 +55,8 @@ namespace BTLGeek.Manager
             //データがあるかチェック
             if (Table_Frame_Item.Count != 0) {
                 //リストの中は開放する
-                foreach (var FrameItem in Table_Frame_Item)
-                    FrameItem.Clear( );
+                foreach (var frameItem in Table_Frame_Item)
+                    frameItem.Clear( );
                 //0～カウント数分のリストを削除(全削除)
                 Table_Frame_Item.RemoveRange(0, (Table_Frame_Item.Count));
             }
@@ -171,7 +171,7 @@ namespace BTLGeek.Manager
 		/// クリアしているかチェックする
 		/// </summary>
 		/// <returns>クリアしているかどうか。true：クリアしている　false：不一致</returns>
-		EVALUATION ClearCheck()
+		public EVALUATION ClearCheck()
 		{
             //ローカル変数
             int matchNum = 0; // 一致しているテーブルの数

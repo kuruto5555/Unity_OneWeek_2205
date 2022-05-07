@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using BTLGeek.DesignPattern;
 using BTLGeek.Manager;
+using BTLGeek.State;
 
 
 namespace BTLGeek {
@@ -38,17 +39,17 @@ namespace BTLGeek {
         /// <summary>
         /// ステートマシーン
         /// </summary>
-        StateMachine<Questioner> stateMachine_ = null;
+        public StateMachine<Questioner> stateMachine_ = null;
 
         /// <summary>
         /// テーブルのリスト
         /// </summary>
-        List<Table> tableList_ = null;
+        private List<Table> tableList_ = null;
 
         /// <summary>
         /// テーブルの幅の半分
         /// </summary>
-        const float TABLE_HALF_WIDTH = 3;
+        private const float TABLE_HALF_WIDTH = 3;
 
         /// <summary>
         /// 問題の難易度設定構造体
@@ -75,7 +76,13 @@ namespace BTLGeek {
         /// <summary>
         /// 難易度のインデックス
         /// </summary>
-        int DifficultyIndex = 0;
+        private int difficultyIndex = 0;
+
+        /// <summary>
+        /// 移動回数
+        /// </summary>
+        public int MoveNum { get; private set; } = 0;
+
 
 
         /*---- メソッド ----*/
@@ -89,27 +96,24 @@ namespace BTLGeek {
                 Debug.Log("テーブルの数が最小値(" + TABLE_NUM_MIN + ")より小さいです。\n最小値(" + TABLE_NUM_MIN + ")に補正します。\n");
                 TabelNum = TABLE_NUM_MIN;
 			}
-            else if (TabelNum >TABLE_NUM_MAX) {
+            else if (TabelNum > TABLE_NUM_MAX) {
                 Debug.Log("テーブルの数が最大値(" + TABLE_NUM_MAX + ")より大きいです。\n最大値(" + TABLE_NUM_MAX + ")に補正します。\n");
                 TabelNum = TABLE_NUM_MAX;
             }
             else {
                 // 正常な値
 			}
-
-            //ステートマシン生成
-            stateMachine_ = new StateMachine<Questioner>(this);
-//            stateMachine_.ChangeState<>();
+            if (null == tablePrefub_) {
+                Debug.LogError("テーブルのプレハブがアタッチされていません。\nインスペクター上からアタッチして下さい。");
+            }
         }
 
 		// Start is called before the first frame update
 		void Start()
         {
-            if (tablePrefub_ == null) {
-                Debug.LogError("テーブルのプレハブがアタッチされていません。\nインスペクター上からアタッチして下さい。");
-            }
-
-            CreateQuestion( );
+            //ステートマシン生成
+            stateMachine_ = new StateMachine<Questioner>(this);
+            stateMachine_.ChangeState<Questioner_Start>( );
         }
 
         // Update is called once per frame
@@ -121,7 +125,7 @@ namespace BTLGeek {
         /// <summary>
         /// 出題する関数
         /// </summary>
-        void CreateQuestion()
+        public void CreateQuestion()
 		{
             // テーブル作成
             CreateTable( );
@@ -130,30 +134,31 @@ namespace BTLGeek {
             // スコア取得
             int sucore = 1000;
             // 既に最高難易度の場合スキップ
-            if(DifficultyIndex < (difficultySettingList.Count-1)) {
+            if(difficultyIndex < (difficultySettingList.Count-1)) {
                 // 次の難易度のスコア以上になっていたら、インデックスを加算して次の難易度へ
-                do {
-                    DifficultyIndex++;
-                } while (sucore >= difficultySettingList[DifficultyIndex+1].score);
-
+                while (sucore >= difficultySettingList[difficultyIndex+1].score) {
+                    difficultyIndex++;
+                }
             }
 
             //フレームの数を計算(アイテム数+アイテム数を2で割ったあまり(奇数だった場合偶数にする))
-            int frameNum = difficultySettingList[DifficultyIndex].foodNum + (difficultySettingList[DifficultyIndex].foodNum%2);
+            int frameNum = difficultySettingList[difficultyIndex].foodNum + (difficultySettingList[difficultyIndex].foodNum%2);
+
+            // 移動回数設定
+            MoveNum = difficultySettingList[difficultyIndex].efforts;
 
             // 料理作成
             BurgerManager.Instance.SetBurger(
-                difficultySettingList[DifficultyIndex].foodNum,
+                difficultySettingList[difficultyIndex].foodNum,
                 frameNum,
                 TabelNum,
-                difficultySettingList[DifficultyIndex].efforts
+                difficultySettingList[difficultyIndex].efforts
             );
 
             // 各テーブルにフレーム作成
             for (int i = 0; i<tableList_.Count; i++) {
                 tableList_[i].CreateFrame(frameNum);
 			}
-
 		}
 
         /// <summary>
@@ -162,7 +167,11 @@ namespace BTLGeek {
         void CreateTable()
 		{
             // テーブルリストにデータがあればクリア
+            foreach (var tabel in tableList_) {
+                Destroy(tabel.gameObject);
+			}
             tableList_?.Clear( );
+
             // テーブルリストを作成
             tableList_ = new List<Table>( );
             for (int i = 0; i<TabelNum; i++) {
