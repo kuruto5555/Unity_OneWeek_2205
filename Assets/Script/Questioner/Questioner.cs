@@ -135,9 +135,12 @@ namespace BTLGeek {
 
             // スコアによる難易度変更チェック
             // スコア取得
+            // ▼▼▼ スコア管理クラス完成時に変更する ▼▼▼
             int sucore = 1000;
+            // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+
             // 既に最高難易度の場合スキップ
-            if(difficultyIndex < (difficultySettingList.Count-1)) {
+            if (difficultyIndex < (difficultySettingList.Count-1)) {
                 // 次の難易度のスコア以上になっていたら、インデックスを加算して次の難易度へ
                 while (sucore >= difficultySettingList[difficultyIndex+1].score) {
                     difficultyIndex++;
