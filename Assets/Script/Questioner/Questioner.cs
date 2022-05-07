@@ -10,14 +10,6 @@ namespace BTLGeek {
     public class Questioner : MonoBehaviour
     {
         /*---- メンバ ----*/
-        [field: Header("プレハブ")]
-        /// <summary>
-        /// テーブルのプレハブ
-        /// </summary>
-        [field: Tooltip("テーブルのプレハブをアタッチしてください")]
-        [field: SerializeField]
-        GameObject tablePrefub_ = null;
-
         /// <summary>
         /// テーブルの最大数
         /// </summary>
@@ -27,6 +19,20 @@ namespace BTLGeek {
         /// テーブルの最小数
         /// </summary>
         public readonly int TABLE_NUM_MIN = 2;
+
+        /// <summary>
+        /// テーブルの幅の半分
+        /// </summary>
+        private const float TABLE_HALF_WIDTH = 3;
+
+
+        [field: Header("プレハブ")]
+        /// <summary>
+        /// テーブルのプレハブ
+        /// </summary>
+        [field: Tooltip("テーブルのプレハブをアタッチしてください")]
+        [field: SerializeField]
+        GameObject tablePrefub_ = null;
 
         [field: Header("デバッグ用")]
         /// <summary>
@@ -45,11 +51,6 @@ namespace BTLGeek {
         /// テーブルのリスト
         /// </summary>
         private List<Table> tableList_ = null;
-
-        /// <summary>
-        /// テーブルの幅の半分
-        /// </summary>
-        private const float TABLE_HALF_WIDTH = 3;
 
         /// <summary>
         /// 問題の難易度設定構造体
@@ -79,9 +80,9 @@ namespace BTLGeek {
         private int difficultyIndex = 0;
 
         /// <summary>
-        /// 移動回数
+        /// 移動回数管理クラス
         /// </summary>
-        public int MoveNum { get; private set; } = 0;
+        MoveCountManager moveCountManager_ = null;
 
 
 
@@ -111,7 +112,9 @@ namespace BTLGeek {
 		// Start is called before the first frame update
 		void Start()
         {
-            //ステートマシン生成
+            // ムーブコントローラーマネージャー取得
+            moveCountManager_ = MoveCountManager.Instance;
+            // ステートマシン生成
             stateMachine_ = new StateMachine<Questioner>(this);
             stateMachine_.ChangeState<Questioner_Start>( );
         }
@@ -145,7 +148,7 @@ namespace BTLGeek {
             int frameNum = difficultySettingList[difficultyIndex].foodNum + (difficultySettingList[difficultyIndex].foodNum%2);
 
             // 移動回数設定
-            MoveNum = difficultySettingList[difficultyIndex].efforts;
+            moveCountManager_.SetCount(difficultySettingList[difficultyIndex].efforts);
 
             // 料理作成
             BurgerManager.Instance.SetBurger(
@@ -167,10 +170,12 @@ namespace BTLGeek {
         void CreateTable()
 		{
             // テーブルリストにデータがあればクリア
-            foreach (var tabel in tableList_) {
-                Destroy(tabel.gameObject);
-			}
-            tableList_?.Clear( );
+            if (null != tableList_) {
+                foreach (var tabel in tableList_) {
+                    Destroy(tabel.gameObject);
+                }
+                tableList_.Clear( );
+            }
 
             // テーブルリストを作成
             tableList_ = new List<Table>( );

@@ -19,22 +19,31 @@ namespace BTLGeek.State
         /// <summary>
         /// 前フレームの移動回数
         /// </summary>
-        private int prevMoveNum = 0;
+        private int prevMoveCount = 0;
 
 		/// <summary>
 		/// スコア加算エフェクト再生用のアニメーター
 		/// </summary>
 		private Animator animator_ = null;
 
+		/// <summary>
+		/// 移動回数管理クラス
+		/// </summary>
+		private MoveCountManager moveCountManager_ = null;
+
 
 
 		/*---- メソッド ----*/
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="owner"></param>
 		public override void Start(Questioner owner)
 		{
 			// 現在の移動回数を持っているコンポーネント取得
-
+			moveCountManager_ = MoveCountManager.Instance;
 			// 移動回数の取得
-			prevMoveNum = owner.MoveNum;
+			prevMoveCount = moveCountManager_.MoveCount;
 			// 食べ物マネージャー取得
 			burgerManager_ = BurgerManager.Instance;
 			// スコア加算エフェクトのアニメーション再生用のアニメーター取得
@@ -53,7 +62,7 @@ namespace BTLGeek.State
 		public override void Update(Questioner owner)
 		{
 			// 移動回数に変動があったら判定する
-			if (prevMoveNum != 0) {
+			if (prevMoveCount != moveCountManager_.MoveCount) {
 				// クリア判定実施
 				BurgerManager.EVALUATION evaluation = burgerManager_.ClearCheck();
 
@@ -70,7 +79,7 @@ namespace BTLGeek.State
 					case BurgerManager.EVALUATION.GOOD:
 					case BurgerManager.EVALUATION.BAD:
 						// 移動回数が0か判定
-						if (0==0) {
+						if (moveCountManager_.MoveCount == 0) {
 							// 0の場合スコア加算
 
 							// スコア加算エフェクト再生
