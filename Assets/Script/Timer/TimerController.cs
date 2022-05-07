@@ -4,19 +4,22 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+
 public class TimerController : MonoBehaviour
 {
-    public Text timerText;
-    public float timeLimit;  // 制限時間
-    float timeCounter;       // 内部処理用
-    int seconds;
-    bool countActiveFlag;
+    [SerializeField] private Text timerText;
+    [SerializeField] private float timeLimit;   // 制限時間
+    private float timeCounter;                  // 内部処理用
+    public int seconds { get; private set; }    // 画面に表示する秒数
+    private bool countActiveFlag;
+
 
     // Start is called before the first frame update
     void Start()
     {
         timeCounter = timeLimit;
         countActiveFlag = true;
+
     }
 
     // Update is called once per frame
@@ -29,15 +32,11 @@ public class TimerController : MonoBehaviour
             timerText.text = seconds.ToString();
         }
 
-    }
-
-    // 時間切れ判定
-    void TimeOverChecker()
-    {
         if (seconds <= 0)
         {
-
+            countActiveFlag = false;
         }
+
     }
 
 }
