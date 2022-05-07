@@ -98,7 +98,7 @@ namespace BTLGeek.State
 				}
 
 				// 前フレームの移動回数に、現在の値をセット
-				//prevMoveNum = ;
+				prevMoveCount = moveCountManager_.MoveCount;
 			}
 
 		}

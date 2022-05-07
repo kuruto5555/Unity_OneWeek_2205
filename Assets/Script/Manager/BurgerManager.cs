@@ -179,7 +179,7 @@ namespace BTLGeek.Manager
             int frameHalfNum = (int)(Table_Frame_Item[0].Count * 0.5f);
 
             // フレームの数分判定
-            for (int i = 0; i <= Table_Frame_Item[0].Count; i++) {
+            for (int i = 0; i <= (Table_Frame_Item[0].Count-1); i++) {
                 // テーブル同士判定
                 for(int j = 0; j <= (Table_Frame_Item.Count-1); j++) {
                     if (Table_Frame_Item[j][i] != Table_Frame_Item[j+1][i])
