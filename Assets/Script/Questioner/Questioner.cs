@@ -34,6 +34,21 @@ namespace BTLGeek {
         [field: SerializeField]
         GameObject tablePrefub_ = null;
 
+        [field: Header("コンポーネントアタッチ")]
+        /// <summary>
+        /// タイマー計測してるやつ
+        /// </summary>
+        [field: Tooltip("タイムコントローラーをアタッチしてください。")]
+        [field: SerializeField]
+        public TimerController TimerController { get; private set; } = null;
+
+        /// <summary>
+		/// スコアマネージャー
+		/// </summary>
+        [field: Tooltip("スコア管理クラスをアタッチしてください。")]
+        [field: SerializeField]
+        public ScoreManager ScoreManager { get; private set; } = null;
+
         [field: Header("デバッグ用")]
         /// <summary>
         /// テーブルの数
@@ -41,9 +56,6 @@ namespace BTLGeek {
         [field: Tooltip("テーブルの数")]
         [field: SerializeField, Range(2, 3)]
         public int TabelNum { get; private set; }
-
-        [field: Tooltip("hoge")]
-        public int hoge;
 
         /// <summary>
         /// ステートマシーン
@@ -85,12 +97,7 @@ namespace BTLGeek {
         /// <summary>
         /// 移動回数管理クラス
         /// </summary>
-        MoveCountManager moveCountManager_ = null;
-
-        /// <summary>
-        /// タイマー計測してるやつ
-        /// </summary>
-        TimerController timerController_ = null;
+        private MoveCountManager moveCountManager_ = null;
 
 
 
@@ -101,6 +108,7 @@ namespace BTLGeek {
 		private void Awake()
 		{
             // エラー確認
+            // テーブルの数
             if(TabelNum < TABLE_NUM_MIN) {
                 Debug.Log("テーブルの数が最小値(" + TABLE_NUM_MIN + ")より小さいです。\n最小値(" + TABLE_NUM_MIN + ")に補正します。\n");
                 TabelNum = TABLE_NUM_MIN;
@@ -112,9 +120,18 @@ namespace BTLGeek {
             else {
                 // 正常な値
 			}
+            // テーブルプレハブのチェック
             if (null == tablePrefub_) {
                 Debug.LogError("テーブルのプレハブがアタッチされていません。\nインスペクター上からアタッチして下さい。");
             }
+            //タイマー計測の有無
+            if (null == TimerController) {
+                Debug.LogError("タイマーコントローラーがアタッチされていません。\nインスペクターからアタッチしてください。");
+			}
+            // スコアマネージャーの有無
+            if( null == ScoreManager) {
+                Debug.LogError("スコアマネジャーがアタッチされていません。\nインスペクターからアタッチしてください。");
+			}
         }
 
 		// Start is called before the first frame update
@@ -125,8 +142,6 @@ namespace BTLGeek {
             // ステートマシン生成
             stateMachine_ = new StateMachine<Questioner>(this);
             stateMachine_.ChangeState<Questioner_Start>( );
-            // タイマーコントロー取得
-
         }
 
         // Update is called once per frame
@@ -134,11 +149,6 @@ namespace BTLGeek {
         {
             // ステートの更新
             stateMachine_.Update( );
-
-            // タイマーが0か判定
-//            if(0 == 0) {
-//                stateMachine_.ChangeState<Questioner_TimeIsUp>( );
-//			}
         }
 
         /// <summary>
@@ -151,9 +161,7 @@ namespace BTLGeek {
 
             // スコアによる難易度変更チェック
             // スコア取得
-            // ▼▼▼ スコア管理クラス完成時に変更する ▼▼▼
-            int sucore = 1000;
-            // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+            int sucore = ScoreManager.totalScore;
 
             // 既に最高難易度の場合スキップ
             if (difficultyIndex < (difficultySettingList.Count-1)) {
@@ -220,6 +228,15 @@ namespace BTLGeek {
                 tableList_[i].transform.localPosition = pos;
                 // 次のX座標を幅の長さ(半分×2)分ずらす
                 tableX += (TABLE_HALF_WIDTH * 2);
+            }
+        }
+
+        public void CheckTimer()
+		{
+            // タイマーが0か判定
+            if (TimerController.seconds <= 0) {
+                // 0以下になっていたら、ステートをタイムアップへ変更
+                stateMachine_.ChangeState<Questioner_TimeIsUp>( );
             }
         }
     }

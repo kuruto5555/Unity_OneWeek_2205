@@ -97,6 +97,8 @@ namespace BTLGeek.State
 				prevMoveCount = moveCountManager_.MoveCount;
 			}
 
+			// タイマー確認
+			owner.CheckTimer( );
 		}
 
 		public override void FixedUpdate(Questioner owner)
@@ -110,8 +112,8 @@ namespace BTLGeek.State
 
 		private void AddScore(Questioner owner, BurgerManager.EVALUATION evaluation, string sePath)
 		{
-			// 0の場合スコア加算
-
+			// スコア加算
+			owner.ScoreManager.scoreCalculator(evaluation);
 			// スコア加算エフェクト再生
 			animator_.Play(evaluation.ToString( ));
 			// SE再生

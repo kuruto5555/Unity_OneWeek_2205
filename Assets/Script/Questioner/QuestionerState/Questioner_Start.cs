@@ -65,9 +65,9 @@ namespace BTLGeek.State
 			}
 			// 開始演出終了待ち
 			else if (animator_.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f) {
-			// 終了後タイマースタート
-
-			// ステートをゲーム中に遷移
+				// 終了後タイマースタート
+				owner.TimerController.CountStart( );
+				// ステートをゲーム中に遷移
 				owner.stateMachine_.ChangeState<Questioner_Do>( );
 			}
 		}

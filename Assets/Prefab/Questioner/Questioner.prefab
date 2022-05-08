@@ -45,29 +45,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tablePrefub_: {fileID: 9038904799255044112, guid: 9c5a58a6435c9414491422870cdc4491,
     type: 3}
-  framePrefab: {fileID: 4603449438166693140, guid: aaf274d8dd604f54ba507b7f6af02b65,
-    type: 3}
-  foodPrefabList_:
-  - {fileID: 7507457788442640246, guid: d8927b164dcd434448c148f60e763c48, type: 3}
-  - {fileID: 7507457788442640246, guid: d8927b164dcd434448c148f60e763c48, type: 3}
-  - {fileID: 2069797296532955018, guid: 52629df36aff0ae4e98362eb628f166f, type: 3}
-  - {fileID: 7507457788442640246, guid: d8927b164dcd434448c148f60e763c48, type: 3}
-  - {fileID: 7507457788442640246, guid: d8927b164dcd434448c148f60e763c48, type: 3}
-  - {fileID: 7507457788442640246, guid: d8927b164dcd434448c148f60e763c48, type: 3}
+  <TimerController>k__BackingField: {fileID: 0}
+  <ScoreManager>k__BackingField: {fileID: 0}
   <TabelNum>k__BackingField: 2
   difficultySettingList:
   - score: 0
     foodNum: 3
     efforts: 3
-  - score: 500
+  - score: 3000
     foodNum: 4
     efforts: 3
-  - score: 1000
-    foodNum: 5
-    efforts: 4
-  - score: 1500
+  - score: 6500
     foodNum: 5
     efforts: 5
-  - score: 2000
+  - score: 10000
+    foodNum: 6
+    efforts: 5
+  - score: 15000
     foodNum: 6
     efforts: 7

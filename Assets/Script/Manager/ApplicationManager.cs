@@ -12,6 +12,12 @@ namespace BTLGeek.Manager
     public class ApplicationManager : SingletonMonoBehaviour<ApplicationManager>
     {
         /// <summary>
+        /// ゲームのスコア<br/>
+        /// ゲームシーン終了時に設定し、リザルトシーンで読み込みクリアする。
+        /// </summary>
+        public int Score = 0;
+
+        /// <summary>
         /// 起動時に実行される
         /// </summary>
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]

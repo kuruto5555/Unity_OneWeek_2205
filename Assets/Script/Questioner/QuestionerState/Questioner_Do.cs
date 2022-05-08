@@ -17,9 +17,6 @@ namespace BTLGeek.State
 			// 出題
 			owner.CreateQuestion( );
 
-			// 手数を設定？
-
-
 			// ステート切り替え
 			owner.stateMachine_.ChangeState<Quesioner_Idling>( );
 		}

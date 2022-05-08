@@ -27,7 +27,7 @@ namespace BTLGeek.State
 		{
 			// アプリケーションマネージャーの取得
 			apManager_ = ApplicationManager.Instance;
-			// スコア加算エフェクトのアニメーション再生用のアニメーター取得
+			// タイムアップエフェクトのアニメーション再生用のアニメーター取得
 			animator_ = GameObject.Find("Directing").GetComponent<Animator>( );
 			if (null == animator_) {
 				Debug.LogError("クラス名：Questioner_Start\n関数名：Start\n-- 詳細--\n開始アニメーションのアニメーターの取得に失敗しました。");
@@ -48,7 +48,7 @@ namespace BTLGeek.State
 			// アニメーションの再生終了待ち
 			if(animator_.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.9f) {
 				// 現在のスコアをアプリケーションマネージャーに登録
-
+				apManager_.Score = owner.ScoreManager.totalScore;
 				// Resultシーンへ遷移
 				apManager_.LoadScene(SceneName.RESULT_SCENE);
 			}

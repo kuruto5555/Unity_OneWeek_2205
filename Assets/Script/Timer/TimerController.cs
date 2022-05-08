@@ -18,25 +18,40 @@ public class TimerController : MonoBehaviour
     void Start()
     {
         timeCounter = timeLimit;
-        countActiveFlag = true;
-
+        seconds = (int)timeLimit;
+        countActiveFlag = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        // カウントが有効か判定
         if (countActiveFlag == true)
         {
+            // 有効であれば時間を更新
             timeCounter -= Time.deltaTime;
             seconds = (int)timeCounter;
+            // テキストに値を反映
             timerText.text = seconds.ToString();
-        }
 
-        if (seconds <= 0)
-        {
-            countActiveFlag = false;
+            // もしカウントが0になっていたら、カウントを無効にする
+            if (timeCounter <= 0f) CountStop( );
         }
-
     }
 
+    /// <summary>
+    /// タイマーカウント開始
+    /// </summary>
+    public void CountStart()
+	{
+        countActiveFlag = true;
+	}
+
+    /// <summary>
+    /// タイマーカウントストップ
+    /// </summary>
+    public void CountStop()
+	{
+        countActiveFlag = false;
+	}
 }
