@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using BTLGeek.Manager;
 using BTLGeek.Constants;
+using UnityEngine.UI;
 
 namespace BTLGeek.UI
 {
@@ -13,7 +14,8 @@ namespace BTLGeek.UI
 		{
 			ResultSceneController.Instance.FadeStart(SceneName.TITLE_SCENE, FADE_TYPE.FADE_OUT);
 			SoundManager.Instance.PlaySeByName(SEPath.DECISION5);
-			EventSystem.current.gameObject.SetActive(false);
+			GetComponent<Button>().enabled = false;
+			EventSystem.current. gameObject.SetActive(false);
 		}
 	}
 }

@@ -8,6 +8,7 @@ public static class TagName
 
 	public const string EDITOR_ONLY     ="EditorOnly";
 	public const string FINISH          ="Finish";
+	public const string FOOD            ="Food";
 	public const string FRAME           ="Frame";
 	public const string GAME_CONTROLLER ="GameController";
 	public const string MAIN_CAMERA     ="MainCamera";

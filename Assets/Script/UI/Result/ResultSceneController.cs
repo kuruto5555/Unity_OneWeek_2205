@@ -67,8 +67,8 @@ namespace BTLGeek.UI
         // フェード開始
         public void FadeStart(string changeSceneName, FADE_TYPE fadeType)
 		{
+            fadeImage_.StopAllCoroutines( );
             fadeImage_.StartCoroutine(FadeUpdate(fadeImage_, fadeTime_, fadeType, changeSceneName));
-
         }
 
         public IEnumerator FadeUpdate(Image fadeImage, float fadeTime, FADE_TYPE fadeType, string changeSceneName)

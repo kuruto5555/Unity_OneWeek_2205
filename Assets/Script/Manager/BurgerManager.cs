@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BTLGeek.Constants;
 
 
 namespace BTLGeek.Manager
@@ -65,12 +66,17 @@ namespace BTLGeek.Manager
         /// </summary>
 		void TebleClear()
 		{
-            //データがあるかチェック
+            // 食べ物探して全部削除
+            foreach(var foodObject in GameObject.FindGameObjectsWithTag(TagName.FOOD)) {
+                Destroy(foodObject);
+			}
+
+            // データがあるかチェック
             if (Table_Frame_Item.Count != 0) {
                 //リストの中は開放する
                 foreach (var frameItem in Table_Frame_Item)
                     frameItem.Clear( );
-                //0～カウント数分のリストを削除(全削除)
+                // 0～カウント数分のリストを削除(全削除)
                 Table_Frame_Item.RemoveRange(0, (Table_Frame_Item.Count));
             }
         }
@@ -134,8 +140,11 @@ namespace BTLGeek.Manager
                 }
             }
 
-            // 手数分のシャッフルを実行
-            Shuffle(efforts, frameNum, tableNum);
+
+            do {
+                // 手数分のシャッフルを実行
+                Shuffle(efforts, frameNum, tableNum);
+            } while (ClearCheck( ) == EVALUATION.Perfect);
 		}
 
         /// <summary>
