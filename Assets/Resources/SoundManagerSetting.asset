@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   volume_: 1
   bgm_volume_: 0.2
-  se_volume_: 1
+  se_volume_: 0.5

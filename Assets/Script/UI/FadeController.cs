@@ -25,6 +25,8 @@ public class FadeController : MonoBehaviour
         _isFadeStart = false;
 
         _nowTime = 0f;
+
+        SoundManager.Instance.PlayBgmByName(BGMPath.TITLE_SCENE);
     }
 
     // Update is called once per frame
@@ -37,6 +39,7 @@ public class FadeController : MonoBehaviour
     {
         _isFadeStart = true;
         _fadeImage.DOFade(1, FadeTime);
+        SoundManager.Instance.PlaySeByName(SEPath.DECISION5);
     }
 
     private void SceneChangeUpdate()
