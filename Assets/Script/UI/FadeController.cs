@@ -40,6 +40,7 @@ public class FadeController : MonoBehaviour
         _isFadeStart = true;
         _fadeImage.DOFade(1, FadeTime);
         SoundManager.Instance.PlaySeByName(SEPath.DECISION5);
+        _fadeImage.raycastTarget = true;
     }
 
     private void SceneChangeUpdate()
