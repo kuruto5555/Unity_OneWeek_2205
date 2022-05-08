@@ -280,4 +280,4 @@ MonoBehaviour:
   scoreText: {fileID: 8814882854732664182}
   perfectScore: 1000
   goodScore: 500
-  badScore: 100
+  badScore: 0

@@ -120,7 +120,7 @@ namespace BTLGeek.Manager
                     }
 
                     // Randでアイテムを抽出し、抽出した物をリストから排除する
-                    int select = burger[Random.Range(0, (burger.Count)-1)];
+                    int select = burger[Random.Range(0, burger.Count)];
                     foreach(var Frame in Table_Frame_Item) {
                         Frame.Add((ITEM_INDEX)select);
 				    }
@@ -149,17 +149,17 @@ namespace BTLGeek.Manager
             for(int i = 0; i < efforts; i++) {
                 // 移動元の選択
                 // テーブルを選択
-                int movingSource_tableIndex = Random.Range(0, (tableNum-1));
+                int movingSource_tableIndex = Random.Range(0, tableNum);
                 // どの位置のアイテムか、Randで選択
-                int movingSource_frameIndex = Random.Range(0, (frameNum-1));
+                int movingSource_frameIndex = Random.Range(0, frameNum);
                 int destination_tableIndex;
                 int destination_frameIndex;
                 do {
                     // 移動先の選択
                     // 右か左かRandで選択(0:右　1:左)
-                    destination_tableIndex = Random.Range(0, (tableNum-1));
+                    destination_tableIndex = Random.Range(0, tableNum);
                     // どの位置のアイテムか、Randで選択
-                    destination_frameIndex = Random.Range(0, (frameNum-1));
+                    destination_frameIndex = Random.Range(0, frameNum);
 
                 } while (movingSource_tableIndex == destination_tableIndex && movingSource_frameIndex == destination_frameIndex);
 
