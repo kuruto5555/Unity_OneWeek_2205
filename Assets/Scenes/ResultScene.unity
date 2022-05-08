@@ -491,7 +491,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreText: {fileID: 92042515}
   fadeImage_: {fileID: 51650950}
-  fadeTime_: 5
+  fadeTime_: 2
 --- !u!4 &849401002
 Transform:
   m_ObjectHideFlags: 0
