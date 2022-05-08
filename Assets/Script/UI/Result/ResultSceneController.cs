@@ -58,6 +58,8 @@ namespace BTLGeek.UI
             scoreText.text = applicationManager_.Score.ToString();
             // スコアを初期化
             applicationManager_.Score = 0;
+            // BGM再生
+            SoundManager.Instance.PlayBgmByName(BGMPath.RESULT_SCENE, true);
             // フェードイン
             FadeStart(null, FADE_TYPE.FADE_IN);
         }
